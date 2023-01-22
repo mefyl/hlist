@@ -1,10 +1,8 @@
-type ('a, 'b) desc = 'a -> 'b
-
 module type S_BASE = sig
   type 'a value
 
   type 'a t =
-    | ( :: ) : 'hd value * 'tl t -> ('hd, 'tl) desc t
+    | ( :: ) : 'hd value * 'tl t -> ('hd -> 'tl) t
     | [] : unit t
 end
 
@@ -12,7 +10,7 @@ module type S2_BASE = sig
   type ('a, 'b) value
 
   type ('a, 'b) t =
-    | ( :: ) : ('hd, 'b) value * ('tl, 'b) t -> (('hd, 'tl) desc, 'b) t
+    | ( :: ) : ('hd, 'b) value * ('tl, 'b) t -> ('hd -> 'tl, 'b) t
     | [] : (unit, 'b) t
 end
 
