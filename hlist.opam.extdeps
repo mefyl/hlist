@@ -1,0 +1,41 @@
+opam-version: "2.0"
+name: "hlist"
+version: "0.1.0"
+synopsis: "Heterogeneous lists"
+maintainer: "mefyl <mefyl@gruntech.org>"
+authors: "mefyl <mefyl@gruntech.org>"
+license: "LGPL-3.0-or-later"
+homepage: "https://github.com/mefyl/hlist"
+bug-reports: "https://github.com/routine/hlist/-/issues"
+depends: [
+  "ocamlformat" {= "0.24.1"}
+  "alcotest" {= "1.6.0" & with-test}
+  "astring" {= "0.8.5" & with-test}
+  "base" {= "v0.15.1" & with-test}
+  "base-bigarray" {= "base"}
+  "base-threads" {= "base"}
+  "base-unix" {= "base"}
+  "cmdliner" {= "1.1.1" & with-test}
+  "csexp" {= "1.5.1" & with-test}
+  "dune" {= "3.6.1"}
+  "dune-configurator" {= "3.6.1" & with-test}
+  "fmt" {= "0.9.0" & with-test}
+  "ocaml" {= "4.14.1"}
+  "ocaml-base-compiler" {= "4.14.1"}
+  "ocaml-compiler-libs" {= "v0.12.4" & with-test}
+  "ocaml-config" {= "2"}
+  "ocaml-options-vanilla" {= "1"}
+  "ocaml-syntax-shims" {= "1.0.0" & with-test}
+  "ocamlbuild" {= "0.14.2" & with-test}
+  "ocamlfind" {= "1.9.5" & with-test}
+  "ppx_derivers" {= "1.2.1" & with-test}
+  "ppx_here" {= "v0.15.0" & with-test}
+  "ppxlib" {= "0.28.0" & with-test}
+  "re" {= "1.10.4" & with-test}
+  "seq" {= "base" & with-test}
+  "sexplib0" {= "v0.15.1" & with-test}
+  "stdlib-shims" {= "0.3.0" & with-test}
+  "topkg" {= "1.0.6" & with-test}
+  "uutf" {= "1.0.3" & with-test}
+]
+dev-repo: "git+https://github.com/mefyl/hlist.git"
