@@ -1,8 +1,10 @@
+type ('a, 'b) desc = 'a -> 'b
+
 module type S_BASE = sig
   type 'a value
 
   type 'a t =
-    | ( :: ) : 'hd value * 'tl t -> ('hd -> 'tl) t
+    | ( :: ) : 'hd value * 'tl t -> ('hd, 'tl) desc t
     | [] : unit t
 end
 
@@ -10,13 +12,12 @@ module type S2_BASE = sig
   type ('a, 'b) value
 
   type ('a, 'b) t =
-    | ( :: ) : ('hd, 'b) value * ('tl, 'b) t -> ('hd -> 'tl, 'b) t
+    | ( :: ) : ('hd, 'b) value * ('tl, 'b) t -> (('hd, 'tl) desc, 'b) t
     | [] : (unit, 'b) t
 end
 
-module type S_OPS = sig
-  type 'a t
-  type 'a value
+module type S = sig
+  include S_BASE
 
   val length : _ t -> int
 
@@ -57,11 +58,6 @@ module type S_OPS = sig
 
     val folding_map : 'fold -> 'a t -> f:'fold folding_mapper -> ('a, 'b) To.t
   end
-end
-
-module type S = sig
-  include S_BASE
-  include S_OPS with type 'a t := 'a t and type 'a value := 'a value
 end
 
 module type S2 = sig

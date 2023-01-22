@@ -1,10 +1,11 @@
-(dirs lib .logistic)
+(dirs src tests .logistic)
 
 (alias
  (name default)
  (deps
   hlist.opam
-  (alias_rec lib/default)))
+  (alias_rec src/default)
+  (alias_rec tests/default)))
 
 (rule
  (target dune.extdeps.inc)

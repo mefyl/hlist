@@ -1,13 +1,16 @@
 include Hlist_intf
 
-module Make_ (Base : sig
-  type 't value
+module Make (T : sig
+  type 'a t
+end) : S with type 'a value = 'a T.t = struct
+  module Base = struct
+    type 't value = 't T.t
 
-  type 't t =
-    | ( :: ) : 'hd value * 'tl t -> ('hd -> 'tl) t
-    | [] : unit t
-end) : S_OPS with type 'a t := 'a Base.t and type 'a value := 'a Base.value =
-struct
+    type 't t =
+      | ( :: ) : 'hd value * 'tl t -> ('hd, 'tl) desc t
+      | [] : unit t
+  end
+
   include Base
 
   let length l =
@@ -95,38 +98,9 @@ struct
   end
 end
 
-include Make_ (struct
-  type 'a value = 'a
-
-  type 'a t = 'a Select_schema.Hlist.t =
-    | ( :: ) : 'hd value * 'tl t -> ('hd -> 'tl) t
-    | [] : unit t
+include Make (struct
+  type 'a t = 'a
 end)
-
-module Make (T : sig
-  type 't t
-end) =
-struct
-  type 't value = 't T.t
-
-  type 't list =
-    | ( :: ) : 'hd value * 'tl list -> ('hd -> 'tl) list
-    | [] : unit list
-
-  include Make_ (struct
-    type nonrec 't value = 't value
-
-    type 't t = 't list =
-      | ( :: ) : 'hd value * 'tl t -> ('hd -> 'tl) t
-      | [] : unit t
-  end)
-
-  type 't t = 't list =
-    | ( :: ) : 'hd value * 'tl list -> ('hd -> 'tl) t
-    | [] : unit t
-end
-
-include Select_schema.Hlist
 
 type (_, _) convert =
   | Cons : ('b, 'c) convert -> ('a -> 'b, 'a * 'c) convert
@@ -144,7 +118,7 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
   type ('t, 'tag) value = ('t, 'tag) T.t
 
   type ('t, 'tag) t =
-    | ( :: ) : ('hd, 'tag) value * ('tl, 'tag) t -> ('hd -> 'tl, 'tag) t
+    | ( :: ) : ('hd, 'tag) value * ('tl, 'tag) t -> (('hd, 'tl) desc, 'tag) t
     | [] : (unit, 'tag) t
 
   let length l =
@@ -232,42 +206,3 @@ module Zip2 (L : S2) (R : S2) = struct
     in
     zip (l, r)
 end
-
-(* module Transduce (To : S_BASE) = struct
- *   type imapper = { f : 't. int -> 't value -> 't To.value }
- *
- *   let mapi l ~f:{ f } =
- *     let rec map : type a. int -> a t -> a To.t =
- *      fun i -> function hd :: tl -> f i hd :: map (i + 1) tl | [] -> []
- *     in
- *     map 0 l
- *
- *   type mapper = { f : 't. 't value -> 't To.value }
- *
- *   let map l ~f:{ f } = mapi l ~f:{ f = (fun _ v -> f v) }
- * end
- *
- * module Transduce2 (To : S2_BASE) = struct
- *   type 't folding_mapper = {
- *     f : 'a 'b. 't -> 'a value -> 't * ('a, 'b) To.value;
- *   }
- *
- *   let folding_map folded l ~f:{ f } =
- *     let rec map : type a b. 'fold -> a t -> (a, b) To.t =
- *      fun folded -> function
- *       | hd :: tl ->
- *         let folded, hd = f folded hd in
- *         hd :: map folded tl
- *       | [] -> []
- *     in
- *     map folded l
- *
- *   type imapper = { f : 'a 'b. int -> 'a value -> ('a, 'b) To.value }
- *
- *   let mapi l ~f:{ f } =
- *     folding_map 0 l ~f:{ f = (fun i elt -> (i + 1, f i elt)) }
- *
- *   type mapper = { f : 'a 'b. 'a value -> ('a, 'b) To.value }
- *
- *   let map l ~f:{ f } = mapi l ~f:{ f = (fun _ v -> f v) }
- * end *)
