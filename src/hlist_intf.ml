@@ -21,6 +21,19 @@ module type S = sig
 
   val length : _ t -> int
 
+  type equal = { f : 'a. 'a value -> 'a value -> bool }
+
+  val equal : equal -> 'a t -> 'a t -> bool
+
+  type printer = { f : 'a. Format.formatter -> 'a value -> unit }
+
+  val pp :
+    printer ->
+    ?sep:(Format.formatter -> unit -> unit) ->
+    Format.formatter ->
+    _ t ->
+    unit
+
   type 'res mapper = { f : 'a. 'a value -> 'res }
   type 'res imapper = { f : 'a. int -> 'a value -> 'res }
 

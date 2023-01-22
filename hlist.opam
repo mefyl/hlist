@@ -10,6 +10,7 @@ bug-reports: "https://github.com/routine/hlist/-/issues"
 depends: [
   "dune" {>= "3.0"}
   "alcotest" {>= "1.1.0" & with-test}
+  "ppx_here" {with-test}
   "odoc" {with-doc}
 ]
 build: [

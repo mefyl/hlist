@@ -1,3 +1,5 @@
 (test
  (name hlist)
- (libraries alcotest hlist))
+ (libraries alcotest hlist)
+ (preprocess
+  (pps ppx_here)))

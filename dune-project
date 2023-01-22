@@ -26,4 +26,5 @@
   (alcotest
    (and
     (>= 1.1.0)
-    :with-test))))
+    :with-test))
+  (ppx_here :with-test)))

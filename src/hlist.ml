@@ -13,6 +13,30 @@ end) : S with type 'a value = 'a T.t = struct
 
   include Base
 
+  type equal = { f : 'a. 'a value -> 'a value -> bool }
+
+  let rec equal : type a. equal -> a t -> a t -> bool =
+   fun eq l r ->
+    match (l, r) with
+    | l_hd :: l_tl, r_hd :: r_tl -> eq.f l_hd r_hd && equal eq l_tl r_tl
+    | [], [] -> true
+
+  type printer = { f : 'a. Format.formatter -> 'a value -> unit }
+
+  let rec pp :
+      type a.
+      printer ->
+      ?sep:(Format.formatter -> unit -> unit) ->
+      Format.formatter ->
+      a t ->
+      unit =
+   fun printer ?(sep = fun _ _ -> ()) fmt -> function
+    | hd :: tl ->
+      printer.f fmt hd;
+      sep fmt ();
+      pp ~sep printer fmt tl
+    | [] -> ()
+
   let length l =
     let rec loop : type l. int -> l t -> int =
      fun acc -> function _ :: tl -> loop (acc + 1) tl | [] -> acc
@@ -192,6 +216,19 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
 
     let map l ~f:{ f } = mapi l ~f:{ f = (fun _ v -> f v) }
   end
+end
+
+module Zip (L : S) (R : S) = struct
+  include Make (struct
+    type 'a t = 'a L.value * 'a R.value
+  end)
+
+  let zip l r =
+    let rec zip : type a. a L.t * a R.t -> a t = function
+      | L.(hd_l :: tl_l), R.(hd_r :: tl_r) -> (hd_l, hd_r) :: zip (tl_l, tl_r)
+      | L.[], R.[] -> []
+    in
+    zip (l, r)
 end
 
 module Zip2 (L : S2) (R : S2) = struct

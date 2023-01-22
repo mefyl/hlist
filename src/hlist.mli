@@ -20,6 +20,12 @@ type (_, _) convert =
 
 val to_pairs : ('l, 'pairs) convert -> 'l t -> 'pairs
 
+module Zip (L : S) (R : S) : sig
+  include S with type 'a value = 'a L.value * 'a R.value
+
+  val zip : 'a L.t -> 'a R.t -> 'a t
+end
+
 module Zip2 (L : S2) (R : S2) : sig
   include S2 with type ('a, 'b) value = ('a, 'b) L.value * ('a, 'b) R.value
 
