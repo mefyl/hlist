@@ -84,6 +84,12 @@ let transduce () =
   let [ Int; String; Int ] = to_types [ Int 0; String "one"; Int 2 ] in
   ()
 
+let pretty_print () =
+  Alcotest.(check ~here:[%here] string "pretty print") "0 one 2"
+  @@ Format.asprintf "@[%a@]"
+       (Atom_hlist.pp ~sep:Format.pp_print_space { f = pp_atom })
+       Atom_hlist.[ Int 0; String "one"; Int 2 ]
+
 let equal_with_type (l, lt) (r, rt) = equal_atom l r && Type.equal lt rt
 
 let pp_with_type fmt (a, t) =
@@ -111,6 +117,7 @@ let () =
         [
           test_case "deconstruct" `Quick deconstruct;
           test_case "find_map" `Quick find_map;
+          test_case "pp" `Quick pretty_print;
           test_case "transduce" `Quick transduce;
           test_case "zip" `Quick zip;
         ] );

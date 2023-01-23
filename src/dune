@@ -1,3 +1,5 @@
 (library
  (name hlist)
- (public_name hlist))
+ (public_name hlist)
+ (preprocess
+  (pps metapp.ppx)))

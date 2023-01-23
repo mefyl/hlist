@@ -27,4 +27,5 @@
    (and
     (>= 1.1.0)
     :with-test))
+  metapp
   (ppx_here :with-test)))

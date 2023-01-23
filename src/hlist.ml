@@ -1,5 +1,24 @@
 include Hlist_intf
 
+[%%metadef
+let printer =
+  [%e
+    fun printer ?(sep = fun _ _ -> ()) fmt -> function
+      | [] -> ()
+      | [ hd ] -> printer.f fmt hd
+      | hd :: tl ->
+        printer.f fmt hd;
+        sep fmt ();
+        pp ~sep printer fmt tl]]
+
+[%%metadef
+let equal =
+  [%e
+    fun eq l r ->
+      match (l, r) with
+      | l_hd :: l_tl, r_hd :: r_tl -> eq.f l_hd r_hd && equal eq l_tl r_tl
+      | [], [] -> true]]
+
 module Make (T : sig
   type 'a t
 end) : S with type 'a value = 'a T.t = struct
@@ -15,11 +34,7 @@ end) : S with type 'a value = 'a T.t = struct
 
   type equal = { f : 'a. 'a value -> 'a value -> bool }
 
-  let rec equal : type a. equal -> a t -> a t -> bool =
-   fun eq l r ->
-    match (l, r) with
-    | l_hd :: l_tl, r_hd :: r_tl -> eq.f l_hd r_hd && equal eq l_tl r_tl
-    | [], [] -> true
+  let rec equal : type a. equal -> a t -> a t -> bool = [%meta equal]
 
   type printer = { f : 'a. Format.formatter -> 'a value -> unit }
 
@@ -30,12 +45,7 @@ end) : S with type 'a value = 'a T.t = struct
       Format.formatter ->
       a t ->
       unit =
-   fun printer ?(sep = fun _ _ -> ()) fmt -> function
-    | hd :: tl ->
-      printer.f fmt hd;
-      sep fmt ();
-      pp ~sep printer fmt tl
-    | [] -> ()
+    [%meta printer]
 
   let length l =
     let rec loop : type l. int -> l t -> int =
@@ -149,10 +159,7 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
   type equal = { f : 'a 'b. ('a, 'b) value -> ('a, 'b) value -> bool }
 
   let rec equal : type a b. equal -> (a, b) t -> (a, b) t -> bool =
-   fun eq l r ->
-    match (l, r) with
-    | l_hd :: l_tl, r_hd :: r_tl -> eq.f l_hd r_hd && equal eq l_tl r_tl
-    | [], [] -> true
+    [%meta equal]
 
   type printer = { f : 'a 'b. Format.formatter -> ('a, 'b) value -> unit }
 
@@ -163,12 +170,7 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
       Format.formatter ->
       (a, b) t ->
       unit =
-   fun printer ?(sep = fun _ _ -> ()) fmt -> function
-    | hd :: tl ->
-      printer.f fmt hd;
-      sep fmt ();
-      pp ~sep printer fmt tl
-    | [] -> ()
+    [%meta printer]
 
   let length l =
     let rec loop : type l. int -> (l, 'tag) t -> int =
