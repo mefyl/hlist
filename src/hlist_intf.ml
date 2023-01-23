@@ -62,15 +62,20 @@ module type S2_INTF = sig
   end
 
   module Transduce2 (To : S2_BASE) : sig
-    type mapper = { f : 'a 'b1 'b2. ('a, 'b1) value -> ('a, 'b2) To.value }
+    type mapper = { f : 'a 'b. ('a, 'b) value -> ('a, 'b) To.value }
 
-    val map : ('a, 'b1) t -> f:mapper -> ('a, 'b2) To.t
+    val map : ('a, 'b) t -> f:mapper -> ('a, 'b) To.t
 
-    type imapper = {
-      f : 'a 'b1 'b2. int -> ('a, 'b1) value -> ('a, 'b2) To.value;
+    type imapper = { f : 'a 'b. int -> ('a, 'b) value -> ('a, 'b) To.value }
+
+    val mapi : ('a, 'b) t -> f:imapper -> ('a, 'b) To.t
+
+    type 't folding_mapper = {
+      f : 'a 'b. 't -> ('a, 'b) value -> 't * ('a, 'b) To.value;
     }
 
-    val mapi : ('a, 'b1) t -> f:imapper -> ('a, 'b2) To.t
+    val folding_map :
+      'fold -> ('a, 'b) t -> f:'fold folding_mapper -> ('a, 'b) To.t
   end
 end
 
