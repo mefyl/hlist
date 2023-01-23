@@ -73,8 +73,7 @@ end) : S with type 'a value = 'a T.t = struct
 
   type 'res mapper = { f : 't. 't value -> 'res }
 
-  let filter_map l ~(f : 'res option mapper) =
-    filter_mapi l ~f:{ f = (fun _ v -> f.f v) }
+  let filter_map l ~f = filter_mapi l ~f:{ f = (fun _ v -> f.f v) }
 
   let find_map l ~(f : 'res option mapper) =
     find_mapi l ~f:{ f = (fun _ v -> f.f v) }
@@ -87,7 +86,9 @@ end) : S with type 'a value = 'a T.t = struct
 
     let mapi l ~f:{ f } =
       let rec map : type a. int -> a t -> a To.t =
-       fun i -> function hd :: tl -> f i hd :: map (i + 1) tl | [] -> []
+       fun i -> function
+        | hd :: tl -> To.( :: ) (f i hd, map (i + 1) tl)
+        | [] -> []
       in
       map 0 l
 
@@ -144,6 +145,30 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
   type ('t, 'tag) t =
     | ( :: ) : ('hd, 'tag) value * ('tl, 'tag) t -> ('hd -> 'tl, 'tag) t
     | [] : (unit, 'tag) t
+
+  type equal = { f : 'a 'b. ('a, 'b) value -> ('a, 'b) value -> bool }
+
+  let rec equal : type a b. equal -> (a, b) t -> (a, b) t -> bool =
+   fun eq l r ->
+    match (l, r) with
+    | l_hd :: l_tl, r_hd :: r_tl -> eq.f l_hd r_hd && equal eq l_tl r_tl
+    | [], [] -> true
+
+  type printer = { f : 'a 'b. Format.formatter -> ('a, 'b) value -> unit }
+
+  let rec pp :
+      type a b.
+      printer ->
+      ?sep:(Format.formatter -> unit -> unit) ->
+      Format.formatter ->
+      (a, b) t ->
+      unit =
+   fun printer ?(sep = fun _ _ -> ()) fmt -> function
+    | hd :: tl ->
+      printer.f fmt hd;
+      sep fmt ();
+      pp ~sep printer fmt tl
+    | [] -> ()
 
   let length l =
     let rec loop : type l. int -> (l, 'tag) t -> int =
