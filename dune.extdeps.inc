@@ -4,6 +4,17 @@
    (progn (cat %{opam})
     (echo
      "url { src: \"git://git@gitlab.routine.co:routine/hlist#%{version:hlist}\" }")))))
+(rule (alias default) (target hlist-ios.opam)
+ (action
+  (with-stdout-to %{target}
+   (run %{dep:.logistic/dune/extdeps/extdeps.exe} rewrite-ios --input
+    %{dep:hlist.opam} --both metapp --cross ""))))
+(rule (target hlist-ios.%{version:hlist}.opam) (deps (:opam hlist-ios.opam))
+ (action
+  (with-stdout-to %{target}
+   (progn (cat %{opam})
+    (echo
+     "url { src: \"git://git@gitlab.routine.co:routine/hlist#%{version:hlist}\" }")))))
 (rule (deps (universe)) (target hlist.opam.locked)
  (action (run %{bin:opam} lock hlist)))
 (rule (alias extdeps) (mode (promote (until-clean)))

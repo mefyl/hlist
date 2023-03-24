@@ -9,7 +9,10 @@ homepage: "https://github.com/mefyl/hlist"
 bug-reports: "https://github.com/routine/hlist/-/issues"
 depends: [
   "ocamlformat" {= "0.24.1"}
-  "alcotest" {= "1.6.0" & with-test}
+  "opam-file-format"
+  "sexplib"
+  "shexp"
+  "alcotest" {= "1.7.0" & with-test}
   "astring" {= "0.8.5" & with-test}
   "base" {= "v0.15.1" & with-test}
   "base-bigarray" {= "base"}
@@ -17,8 +20,8 @@ depends: [
   "base-unix" {= "base"}
   "cmdliner" {= "1.1.1" & with-test}
   "csexp" {= "1.5.1" & with-test}
-  "dune" {= "3.6.1"}
-  "dune-configurator" {= "3.6.1" & with-test}
+  "dune" {= "3.7.0"}
+  "dune-configurator" {= "3.7.0" & with-test}
   "fmt" {= "0.9.0" & with-test}
   "metapp" {= "0.4.4"}
   "ocaml" {= "4.14.1"}
@@ -28,17 +31,17 @@ depends: [
   "ocaml-options-vanilla" {= "1"}
   "ocaml-syntax-shims" {= "1.0.0" & with-test}
   "ocamlbuild" {= "0.14.2" & with-test}
-  "ocamlfind" {= "1.9.5"}
+  "ocamlfind" {= "1.9.6"}
   "ppx_derivers" {= "1.2.1"}
   "ppx_here" {= "v0.15.0" & with-test}
-  "ppxlib" {= "0.28.0"}
+  "ppxlib" {= "0.29.1"}
   "re" {= "1.10.4" & with-test}
   "result" {= "1.5"}
   "seq" {= "base"}
   "sexplib0" {= "v0.15.1"}
   "stdcompat" {= "19"}
   "stdlib-shims" {= "0.3.0"}
-  "topkg" {= "1.0.6" & with-test}
+  "topkg" {= "1.0.7" & with-test}
   "uutf" {= "1.0.3" & with-test}
 ]
 dev-repo: "git+https://github.com/mefyl/hlist.git"

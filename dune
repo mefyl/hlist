@@ -14,6 +14,6 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{dep:.logistic/dune/extdeps/extdeps.exe} generate))))
+   (run %{dep:.logistic/dune/extdeps/extdeps.exe} generate --both metapp))))
 
 (include dune.extdeps.inc)
