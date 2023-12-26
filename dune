@@ -8,12 +8,16 @@
   (alias_rec tests/default)))
 
 (rule
- (target dune.extdeps.inc)
+ (target dune.inc)
  (alias extdeps)
  (mode (promote))
  (action
   (with-stdout-to
    %{target}
-   (run %{dep:.logistic/dune/extdeps/extdeps.exe} generate --both metapp))))
+   (run
+    %{dep:.logistic/dune/extdeps/extdeps.exe}
+    generate
+    --cross-both
+    metapp))))
 
-(include dune.extdeps.inc)
+(include dune.inc)

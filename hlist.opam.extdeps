@@ -8,37 +8,38 @@ license: "LGPL-3.0-or-later"
 homepage: "https://github.com/mefyl/hlist"
 bug-reports: "https://github.com/routine/hlist/-/issues"
 depends: [
-  "ocamlformat" {= "0.24.1"}
+  "ocamlformat" {= "0.26.1"}
   "opam-file-format"
   "sexplib"
-  "shexp"
   "alcotest" {= "1.7.0" & with-test}
   "astring" {= "0.8.5" & with-test}
-  "base" {= "v0.15.1" & with-test}
+  "base" {= "v0.16.3" & with-test}
   "base-bigarray" {= "base"}
   "base-threads" {= "base"}
   "base-unix" {= "base"}
-  "cmdliner" {= "1.1.1" & with-test}
-  "csexp" {= "1.5.1" & with-test}
-  "dune" {= "3.7.0"}
-  "dune-configurator" {= "3.7.0" & with-test}
+  "cmdliner" {= "1.2.0" & with-test}
+  "conf-autoconf" {= "0.1"}
+  "conf-which" {= "1"}
+  "csexp" {= "1.5.2" & with-test}
+  "dune" {= "3.12.1"}
+  "dune-configurator" {= "3.12.1" & with-test}
   "fmt" {= "0.9.0" & with-test}
   "metapp" {= "0.4.4"}
-  "ocaml" {= "4.14.1"}
-  "ocaml-base-compiler" {= "4.14.1"}
+  "ocaml" {= "4.14.0"}
+  "ocaml-base-compiler" {= "4.14.0"}
   "ocaml-compiler-libs" {= "v0.12.4"}
   "ocaml-config" {= "2"}
   "ocaml-options-vanilla" {= "1"}
   "ocaml-syntax-shims" {= "1.0.0" & with-test}
-  "ocamlbuild" {= "0.14.2" & with-test}
+  "ocamlbuild" {= "0.14.3" & with-test}
   "ocamlfind" {= "1.9.6"}
   "ppx_derivers" {= "1.2.1"}
-  "ppx_here" {= "v0.15.0" & with-test}
-  "ppxlib" {= "0.29.1"}
-  "re" {= "1.10.4" & with-test}
+  "ppx_here" {= "v0.16.0" & with-test}
+  "ppxlib" {= "0.31.0"}
+  "re" {= "1.11.0" & with-test}
   "result" {= "1.5"}
   "seq" {= "base"}
-  "sexplib0" {= "v0.15.1"}
+  "sexplib0" {= "v0.16.0"}
   "stdcompat" {= "19"}
   "stdlib-shims" {= "0.3.0"}
   "topkg" {= "1.0.7" & with-test}
