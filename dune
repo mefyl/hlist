@@ -1,4 +1,4 @@
-(dirs src tests .logistic)
+(dirs opam src tests .logistic)
 
 (alias
  (name default)
