@@ -69,7 +69,7 @@ let promote_until_clean =
   Sexp.List
     [ Atom "mode"; List [ Atom "promote"; List [ Atom "until-clean" ] ] ]
 
-let cross_toolchains = [ "ios"; "macos"; "windows" ]
+let cross_toolchains = [ "ios"; "macos"; "windows"; "android" ]
 let cross_toolchain_packages = [ "routine-controller-lib" ]
 
 let value_filter_map name value ~f =
@@ -125,7 +125,6 @@ let () =
                   Atom "target";
                   Atom (package ^ suffix ^ ".%{version:" ^ package ^ "}.opam");
                 ];
-              promote_until_clean;
               List
                 [
                   Atom "deps";
@@ -145,12 +144,15 @@ let () =
                           List [ Atom "cat"; Atom "%{opam}" ];
                           List
                             [
-                              Atom "echo";
+                              Atom "run";
+                              Atom "git";
+                              Atom "log";
                               Atom
-                                ("url { src: \
+                                ("--pretty=url { src: \
                                   \"git://git@gitlab.routine.co:routine/"
-                               ^ repository ^ "#%{version:" ^ package ^ "}\" }"
-                                );
+                                ^ repository
+                                ^ "#%H\" }");
+                              Atom "-n1";
                             ];
                         ];
                     ];
@@ -264,9 +266,14 @@ let () =
                  else []));
             ];
           List
-            (Atom "subdir" :: Atom "opam"
+            (Atom "subdir"
+            :: Atom "opam"
             :: List.concat
-                 ([ opam_rule ""; locked_rule ""; extdeps_rule None ]
+                 ([
+                    opam_rule ~source:"../" "";
+                    locked_rule "";
+                    extdeps_rule None;
+                  ]
                  :: List.map cross_toolchains ~f:(fun toolchain ->
                         [
                           cross_rule toolchain;
@@ -282,8 +289,12 @@ let () =
       |> Result.return
     in
     Term.(
-      const generate $ Arg.value repo_name $ Arg.value local
-      $ Arg.value cross_both $ Arg.value cross_exclude $ Arg.value cross_only)
+      const generate
+      $ Arg.value repo_name
+      $ Arg.value local
+      $ Arg.value cross_both
+      $ Arg.value cross_exclude
+      $ Arg.value cross_only)
     |> Cmd.(v (info "generate"))
   and rewrite =
     let open OpamParserTypes.FullPos in
@@ -359,9 +370,10 @@ let () =
                  {
                    value with
                    pelem =
-                     pin_depend "ocamlformat" "0.26.1"
+                     pin_depend "ocamlformat" "0.26.2"
                      :: { pelem = String "opam-file-format"; pos }
                      :: { pelem = String "sexplib"; pos }
+                     :: { pelem = String "opam-dune-lint"; pos }
                      :: l;
                  }))
         | _ -> failwith "pin-depends expects a list"
@@ -414,7 +426,8 @@ let () =
     let rewrite path cross cross_both cross_exclude =
       let package =
         String.rsplit2 ~on:'.' (Stdlib.Filename.basename path)
-        |> Option.value_exn |> fst
+        |> Option.value_exn
+        |> fst
       in
       let file = parse path in
       let rec rewrite_contents contents =
@@ -525,8 +538,11 @@ let () =
       | Result.Error (None, msg) -> Result.Error msg
     in
     Term.(
-      const rewrite $ Arg.required input $ Arg.value cross_only
-      $ Arg.value cross_both $ Arg.value cross_exclude)
+      const rewrite
+      $ Arg.required input
+      $ Arg.value cross_only
+      $ Arg.value cross_both
+      $ Arg.value cross_exclude)
     |> Cmd.(v (info ("rewrite-" ^ toolchain)))
   in
   Cmdliner.Cmd.(
@@ -538,5 +554,6 @@ let () =
            rewrite_toolchain "ios";
            rewrite_toolchain "macos";
            rewrite_toolchain "windows";
+           rewrite_toolchain "android";
          ]))
   |> Stdlib.exit
