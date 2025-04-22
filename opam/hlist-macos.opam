@@ -1,0 +1,18 @@
+opam-version: "2.0"
+version: "0.2.0"
+synopsis: "Heterogeneous lists"
+maintainer: ["mefyl <mefyl@gruntech.org>"]
+authors: ["mefyl <mefyl@gruntech.org>"]
+license: "LGPL-3.0-or-later"
+homepage: "https://github.com/mefyl/hlist"
+bug-reports: "https://github.com/routine/hlist/-/issues"
+depends: [
+  "dune" {>= "3.14"}
+  "metapp"
+  "metapp-macos"
+]
+build: [
+  ["dune" "subst"] {dev}
+  ["dune" "build" "-x" "macos" "-p" "hlist" "-j" jobs "@install"]
+]
+dev-repo: "git+https://github.com/mefyl/hlist.git"
