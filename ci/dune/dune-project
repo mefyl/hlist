@@ -1,0 +1,8 @@
+(lang dune 3.0)
+
+(name extdeps)
+
+(package
+ (name extdeps)
+ (allow_empty)
+ (depends opam-file-format sexplib stdio))
