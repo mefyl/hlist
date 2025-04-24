@@ -5,7 +5,4 @@
 (package
  (name extdeps)
  (allow_empty)
- (depends
-  (opam-file-format :with-test)
-  (sexplib :with-test)
-  (stdio :with-test)))
+ (depends opam-file-format sexplib stdio))
