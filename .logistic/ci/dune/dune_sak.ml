@@ -218,7 +218,7 @@ let () =
       $ Arg.value cross_both
       $ Arg.value cross_exclude
       $ Arg.value cross_only)
-    |> Cmd.(v (info "generate"))
+    |> Cmd.(v (info ~doc:"generate dune.inc boilerplate" "generate"))
   and rewrite =
     let open OpamParserTypes.FullPos in
     let pos f ({ pelem; _ } as pos) =
@@ -321,7 +321,7 @@ let () =
     in
     Term.(
       const rewrite $ Arg.value toolchain $ Arg.value local $ Arg.required input)
-    |> Cmd.(v (info "rewrite"))
+    |> Cmd.(v (info ~doc:"rewrite opam file for release" "rewrite"))
   and rewrite_toolchain toolchain =
     let open OpamParserTypes.FullPos in
     let pos f ({ pelem; _ } as pos) =
@@ -465,7 +465,12 @@ let () =
       $ Arg.value cross_only
       $ Arg.value cross_both
       $ Arg.value cross_exclude)
-    |> Cmd.(v (info ("rewrite-" ^ toolchain)))
+    |> Cmd.(
+         v
+           (info
+              ~doc:
+                (Fmt.str "rewrite Opam file to cross-compile for %s" toolchain)
+              ("rewrite-" ^ toolchain)))
   in
   Cmdliner.Cmd.(
     eval_result
