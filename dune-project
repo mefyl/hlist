@@ -1,4 +1,4 @@
-(lang dune 3.0)
+(lang dune 3.14)
 
 (name hlist)
 
@@ -27,4 +27,6 @@
    (and
     (>= 1.1.0)
     :with-test))
+  (ocaml
+   (>= 4.12.0))
   (ppx_here :with-test)))
