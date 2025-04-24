@@ -1,8 +1,8 @@
 (lang dune 3.0)
 
-(name extdeps)
+(name dune-sak)
 
 (package
- (name extdeps)
+ (name dune-sak)
  (allow_empty)
- (depends opam-file-format sexplib stdio))
+ (depends cmdliner fmt ocaml opam-file-format sexplib stdio))
