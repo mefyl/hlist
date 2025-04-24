@@ -10,7 +10,7 @@
 
 (authors "mefyl <mefyl@gruntech.org>")
 
-(version 0.2.0)
+(version 0.2.1)
 
 (homepage https://github.com/mefyl/hlist)
 
@@ -27,5 +27,4 @@
    (and
     (>= 1.1.0)
     :with-test))
-  metapp
   (ppx_here :with-test)))

@@ -8,50 +8,19 @@ license: "LGPL-3.0-or-later"
 homepage: "https://github.com/mefyl/hlist"
 bug-reports: "https://github.com/routine/hlist/-/issues"
 depends: [
-  "ocamlformat" {= "0.26.1"}
+  "ocamlformat" {= "0.26.2"}
   "opam-file-format"
   "sexplib"
-  "alcotest" {= "1.7.0" & with-test}
-  "astring" {= "0.8.5" & with-test}
-  "base" {= "v0.16.3" & with-test}
+  "opam-dune-lint"
   "base-bigarray" {= "base"}
+  "base-domains" {= "base"}
+  "base-nnp" {= "base"}
   "base-threads" {= "base"}
   "base-unix" {= "base"}
-  "camlp-streams" {= "5.0.1" & with-doc}
-  "cmdliner" {= "1.2.0" & with-test}
-  "conf-autoconf" {= "0.1"}
-  "conf-bash" {= "1" & with-test}
-  "conf-which" {= "1"}
-  "cppo" {= "1.6.9" & with-doc}
-  "csexp" {= "1.5.2" & with-test}
-  "dune" {= "3.12.1"}
-  "dune-configurator" {= "3.12.1" & with-test}
-  "fmt" {= "0.9.0" & with-test}
-  "fpath" {= "0.7.3" & with-doc}
-  "host-arch-x86_64" {= "1"}
-  "host-system-other" {= "1"}
-  "metapp" {= "0.4.4"}
-  "ocaml" {= "4.14.0"}
-  "ocaml-base-compiler" {= "4.14.0"}
-  "ocaml-compiler-libs" {= "v0.12.4"}
-  "ocaml-config" {= "2"}
+  "dune" {= "3.18.1"}
+  "ocaml" {= "5.2.1"}
+  "ocaml-base-compiler" {= "5.2.1"}
+  "ocaml-config" {= "3"}
   "ocaml-options-vanilla" {= "1"}
-  "ocaml-syntax-shims" {= "1.0.0" & with-test}
-  "ocamlbuild" {= "0.14.3" & with-test}
-  "ocamlfind" {= "1.9.6"}
-  "odoc" {= "2.2.2" & with-doc}
-  "odoc-parser" {= "2.0.0" & with-doc}
-  "ppx_derivers" {= "1.2.1"}
-  "ppx_here" {= "v0.16.0" & with-test}
-  "ppxlib" {= "0.31.0"}
-  "re" {= "1.11.0" & with-test}
-  "result" {= "1.5"}
-  "seq" {= "base"}
-  "sexplib0" {= "v0.16.0"}
-  "stdcompat" {= "19"}
-  "stdlib-shims" {= "0.3.0"}
-  "topkg" {= "1.0.7" & with-test}
-  "tyxml" {= "4.6.0" & with-doc}
-  "uutf" {= "1.0.3" & with-test}
 ]
 dev-repo: "git+https://github.com/mefyl/hlist.git"
