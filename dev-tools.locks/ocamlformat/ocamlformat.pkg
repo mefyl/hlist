@@ -1,5 +1,5 @@
 (version
- 0.26.2+binary-ocaml-5.2.1-built-2024-12-04.0-x86_64-unknown-linux-musl)
+ 0.27.0+binary-ocaml-5.2.1-built-2024-12-04.0-x86_64-unknown-linux-musl)
 
 (install
  (progn
@@ -9,6 +9,6 @@
 (source
  (fetch
   (url
-   https://github.com/ocaml-dune/ocaml-binary-packages/releases/download/2024-12-04.0/ocamlformat.0.26.2+binary-ocaml-5.2.1-built-2024-12-04.0-x86_64-unknown-linux-musl.tar.gz)
+   https://github.com/ocaml-dune/ocaml-binary-packages/releases/download/2024-12-04.0/ocamlformat.0.27.0+binary-ocaml-5.2.1-built-2024-12-04.0-x86_64-unknown-linux-musl.tar.gz)
   (checksum
-   sha256=f466234d0f725203f480ce38dddb14006e5d9af0041bba85bf2276e28593ca12)))
+   sha256=d6b7512cda51e2cce08b3416a9231cd07f884c0e41f773905251a571010fbc75)))

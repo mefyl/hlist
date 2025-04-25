@@ -23,8 +23,7 @@ end) : S with type 'a value = 'a T.t = struct
 
   type printer = { f : 'a. Format.formatter -> 'a value -> unit }
 
-  let rec pp :
-      type a.
+  let rec pp : type a.
       printer ->
       ?sep:(Format.formatter -> unit -> unit) ->
       Format.formatter ->
@@ -49,11 +48,11 @@ end) : S with type 'a value = 'a T.t = struct
   let filter_mapi l ~(f : 'res option imapper) =
     let rec map : type a. int -> a t -> 'res list =
      fun i -> function
-      | hd :: tl -> (
-        match f.f i hd with
-        | Some value -> List.cons value (map (i + 1) tl)
-        | None -> map (i + 1) tl)
-      | [] -> []
+       | hd :: tl -> (
+         match f.f i hd with
+         | Some value -> List.cons value (map (i + 1) tl)
+         | None -> map (i + 1) tl)
+       | [] -> []
     in
     map 0 l
 
@@ -66,9 +65,11 @@ end) : S with type 'a value = 'a T.t = struct
   let find_mapi l ~(f : 'res option imapper) =
     let rec loop : type a. int -> a t -> 'res option =
      fun i -> function
-      | hd :: tl -> (
-        match f.f i hd with Some value -> Some value | None -> loop (i + 1) tl)
-      | [] -> None
+       | hd :: tl -> (
+         match f.f i hd with
+         | Some value -> Some value
+         | None -> loop (i + 1) tl)
+       | [] -> None
     in
     loop 0 l
 
@@ -88,8 +89,8 @@ end) : S with type 'a value = 'a T.t = struct
     let mapi l ~f:{ f } =
       let rec map : type a. int -> a t -> a To.t =
        fun i -> function
-        | hd :: tl -> To.( :: ) (f i hd, map (i + 1) tl)
-        | [] -> []
+         | hd :: tl -> To.( :: ) (f i hd, map (i + 1) tl)
+         | [] -> []
       in
       map 0 l
 
@@ -106,10 +107,10 @@ end) : S with type 'a value = 'a T.t = struct
     let folding_map folded l ~f:{ f } =
       let rec map : type a b. 'fold -> a t -> (a, b) To.t =
        fun folded -> function
-        | hd :: tl ->
-          let folded, hd = f folded hd in
-          hd :: map folded tl
-        | [] -> []
+         | hd :: tl ->
+           let folded, hd = f folded hd in
+           hd :: map folded tl
+         | [] -> []
       in
       map folded l
 
@@ -157,8 +158,7 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
 
   type printer = { f : 'a 'b. Format.formatter -> ('a, 'b) value -> unit }
 
-  let rec pp :
-      type a b.
+  let rec pp : type a b.
       printer ->
       ?sep:(Format.formatter -> unit -> unit) ->
       Format.formatter ->
@@ -183,11 +183,11 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
   let filter_mapi l ~f =
     let rec map : type a. int -> (a, 'tag) t -> 'res list =
      fun i -> function
-      | hd :: tl -> (
-        match f.f i hd with
-        | Some value -> List.cons value (map (i + 1) tl)
-        | None -> map (i + 1) tl)
-      | [] -> []
+       | hd :: tl -> (
+         match f.f i hd with
+         | Some value -> List.cons value (map (i + 1) tl)
+         | None -> map (i + 1) tl)
+       | [] -> []
     in
     map 0 l
 
@@ -200,9 +200,11 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
   let find_mapi l ~(f : ('b, 'res option) imapper) =
     let rec loop : type a. int -> (a, 'b) t -> 'res option =
      fun i -> function
-      | hd :: tl -> (
-        match f.f i hd with Some value -> Some value | None -> loop (i + 1) tl)
-      | [] -> None
+       | hd :: tl -> (
+         match f.f i hd with
+         | Some value -> Some value
+         | None -> loop (i + 1) tl)
+       | [] -> None
     in
     loop 0 l
 
@@ -238,10 +240,10 @@ end) : S2 with type ('a, 'b) value = ('a, 'b) T.t = struct
     let folding_map folded l ~f:{ f } =
       let rec map : type a b. 'fold -> (a, b) t -> (a, b) To.t =
        fun folded -> function
-        | hd :: tl ->
-          let folded, hd = f folded hd in
-          hd :: map folded tl
-        | [] -> []
+         | hd :: tl ->
+           let folded, hd = f folded hd in
+           hd :: map folded tl
+         | [] -> []
       in
       map folded l
 
